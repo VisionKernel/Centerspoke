@@ -1,11 +1,11 @@
 ![Centerspoke Logo](./imgs/centerspoke.jpg)
 ## Centerspoke - The open-source cloud data management CLI
 
-![GitHub Repo stars](https://img.shields.io/github/stars/nicksimpkins/visionkernel_cli)
-![GitHub forks](https://img.shields.io/github/forks/nicksimpkins/visionkernel_cli)
-![GitHub watchers](https://img.shields.io/github/watchers/nicksimpkins/visionkernel_cli)
-![GitHub License](https://img.shields.io/github/license/nicksimpkins/visionkernel_cli)
-![GitHub issues](https://img.shields.io/github/issues/nicksimpkins/visionkernel_cli)
+![GitHub Repo stars](https://img.shields.io/github/stars/VisionKernel/Centerspoke)
+![GitHub forks](https://img.shields.io/github/forks/VisionKernel/Centerspoke)
+![GitHub watchers](https://img.shields.io/github/watchers/VisionKernel/Centerspoke)
+![GitHub License](https://img.shields.io/github/license/VisionKernel/Centerspoke)
+![GitHub issues](https://img.shields.io/github/issues/VisionKernel/Centerspoke)
 
 ## About
 
