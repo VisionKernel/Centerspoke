@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<head>
+
+<title>VisionKernel CLI Documentation</title>
+
+<style>
+body {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+}
+.header {
+    color: #ffffff;
+    font-size: 50px;
+}
+.header2 {
+    color: #ffffff;
+    font-size: 30px;
+}
+.title {
+    color: #ffffff;
+    font-size: 25px;
+}
+.subtitle {
+    color: #ffffff;
+    font-size: 22px;
+}
+.info {
+    color: #ffffff;
+    font-size: 17px;
+}
+</style>
+
+<!--- SAMPLE --->
+
+</head>
+<body>
+
+<p class="header">VisionKernel CLI Documentation</p>
+<p class="header2">v1.0.0 LTS - VisionKernel Corp.</p>
+
+<hr>
+
+<p class="title">visionkernel - available commands:</p>
+
+<p class="subtitle">-v, -V, -version</p>
+<p class="info">These tags will output the current installed version of the VisionKernel application.</p>
+<p class="subtitle">-help</p>
+<p class="info">Thia tag will output supported commands to the console.</p>
+<p class="subtitle">update</p>
+<p class="info">This command will update the VisionKernel application to the most recent version. Add -LTS to the command to update to the most recent version with long term support.</p>
+<p class="info">Run "-a" tag to update all datafeeds and services, "-s" for all services and "-d" for all datafeeds.</p>
+<p class="subtitle">install</p>
+<p class="info">This command will install datafeeds and services.</p>
+<p class="info">"visionkernel install datafeed example" will install the API example, "visionkernel install service example" will install the service example.</p>
+<p class="subtitle">startapi</p>
+<p class="info">"visionkernel startapi example" will start the API example and start displaying data values until exited.</p>
+<p class="subtitle">nitroexport</p>
+<p class="info">"visionkernel nitroexport example.txt" will upload the example.txt file directly to your database</p>
+<p class="info">To specify database and/or table run "visionkernel nitroexport example.txt -db example_database -t exampletable"</p>
+<p class="subtitle">smartexport</p>
+<p class="info">"visionkernel smartexport example.txt" will review the example.txt file for irregularities before uploading to the database. (You can configure the database and table same way as nitroexport)</p>
+<p class="subtitle">convert</p>
+<p class="info">"visionkernel convert file.xls > file.csv" will convert the file.xls file to a file.csv file and save it under root directory</p>
+<p class="subtitle">use <i>and</i> on</p>
+<p class="info">"visionkernel use exampleservice on file.xls" will use the selected service on specified file</p>
+<p class="subtitle">delete</p>
+<p class="info">"visionkernel delete service exampleservice" will delete the service exampleservice</p>
+<p class="info">"visionkernel delete datafeed exampleapi" will delete the data API exampleapi</p>
+<p class="subtitle">print</p>
+<p class="info">"visionkernel print installed" will output all installed libraries. "visionkernel print cloudconfig" will output the cloud database(s) info.</p>
+<p class="subtitle"></p>
+<p class="info"></p>
+
+
+</body>
+</html>
