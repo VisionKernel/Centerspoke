@@ -34,19 +34,11 @@ Converting data is simple with our `convert` option. Easily convert a file such 
 
 To connect to your cloud database you will need certain information that is unique for every database and every cloud provider. 
 * AWS RDS: Instance Identifier, Database Name, Username, Password, Port (Default 5432)
-* Azure SQL: Server Name, Database Name, Username
-* Google Cloud SQL: Instance Connection Name, Database Name, Username
-* Google Cloud Storage: Bucket Name
-* IBM Cloud:
-* Orcale Cloud:
-
-### API implementation
-
-
-
-### Adding services
-
-  
+* Azure SQL: Coming Soon
+* Google Cloud SQL: Coming Soon
+* Google Cloud Storage: Coming Soon
+* IBM Cloud: Coming Soon
+* Orcale Cloud: Coming Soon
 
 ### Thank you!
 
