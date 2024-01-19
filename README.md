@@ -33,7 +33,7 @@ Converting data is simple with our `convert` option. Easily convert a file such 
 ### Connecting Cloud Database
 
 To connect to your cloud database you will need certain information that is unique for every database and every cloud provider. 
-* AWS RDS: Instance Identifier, Database Name, Username, Password, Port (Default 5432)
+* AWS RDS (MySQL Engine): Instance Identifier, Database Name, Username, Password, Port (Default 3306)
 * Azure SQL: Coming Soon
 * Google Cloud SQL: Coming Soon
 * Google Cloud Storage: Coming Soon
