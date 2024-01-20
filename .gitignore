@@ -54,5 +54,5 @@ visionenv/
 venv/
 
 # File Types (For testing)
-.csv
-.xlsx
+app/.csv
+app/.xlsx
