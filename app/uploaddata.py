@@ -3,6 +3,8 @@ import pandas as pd
 import mysql.connector
 from contextlib import contextmanager
 from decimal import Decimal
+from data_processing import clean_data
+
 
 @contextmanager
 def mysql_cursor(connection):
@@ -32,6 +34,8 @@ def auto_create_table_from_excel(connection, table_name, excel_file_path, sheet_
         # Read Excel file into a Pandas DataFrame
         df = pd.read_excel(excel_file_path, sheet_name=sheet_name)
 
+        # df = clean_data(df)
+
         # Start creating the SQL statement
         create_table_sql = f"CREATE TABLE IF NOT EXISTS {table_name} ("
 
@@ -60,26 +64,22 @@ def auto_create_table_from_excel(connection, table_name, excel_file_path, sheet_
 
 def upload_excel_data(connection, table_name, excel_file_path, sheet_name):
     try:
-        # Read Excel file into a Pandas DataFrame
         df = pd.read_excel(excel_file_path, sheet_name=sheet_name)
-
-        # Remove rows where all elements are NaN (blank lines)
-        df = df.dropna(how='all')
-
-        # Convert data types for each column based on mapping
+        df = df.dropna(how='all')  # Remove rows with all NaN values
+        
+        # Explicitly check column names for "DATE" or date-like naming to apply datetime formatting
         for col in df.columns:
-            col_type = get_mysql_data_type(df[col].dtype)
-            if col_type == 'DATETIME':
-                df[col] = pd.to_datetime(df[col]).dt.strftime('%Y-%m-%d')
-            elif col_type == 'INT':
-                # Ensure numeric columns are formatted correctly (optional, as pandas usually handles this well)
-                df[col] = df[col].apply(lambda x: round(x) if col_type == 'INT' else float(x))
-            elif col_type == 'FLOAT':
-                df[col] = df[col].apply(lambda x: None if pd.isna(x) else Decimal(str(x)))
-            elif col_type == 'BOOLEAN':
-                # Convert boolean to a format MySQL understands (1 for True, 0 for False)
-                df[col] = df[col].astype(int)
-            # Additional data types can be handled here as needed
+            if 'date' in col.lower():  # A simple heuristic to target date columns
+                df[col] = pd.to_datetime(df[col]).dt.strftime('%Y-%m-%dT%H:%M:%S.000Z')
+            else:
+                # Handle numeric data, preserving original values
+                col_type = get_mysql_data_type(df[col].dtype)
+                if col_type == 'FLOAT':
+                    df[col] = df[col].apply(lambda x: Decimal(str(x)) if pd.notnull(x) else None)
+                elif col_type == 'BOOLEAN':
+                    df[col] = df[col].astype(int)
+        
+        print(df.head())  # Print after processing all columns
 
         # Convert NaN values to None for SQL compatibility
         df = df.where(pd.notna(df), None)
@@ -96,6 +96,41 @@ def upload_excel_data(connection, table_name, excel_file_path, sheet_name):
             # Execute the SQL query for insertion
             print("Insert Query:", insert_query)
             print("Sample Records:", records[:5])  # Print first 5 records as a sample
+            cursor.executemany(insert_query, records)
+            connection.commit()
+
+        print(f"Data uploaded successfully to '{table_name}'.")
+
+    except Exception as e:
+        print(f"Error uploading data: {e}")
+
+def upload_data_to_mysql(connection, table_name, df: pd.DataFrame):
+    try:
+        # Ensure data types are compatible with MySQL
+        for col in df.columns:
+            col_type = get_mysql_data_type(df[col].dtype)
+            if col_type == 'DATETIME':
+                df[col] = pd.to_datetime(df[col]).dt.strftime('%Y-%m-%d')
+            elif col_type == 'INT':
+                df[col] = df[col].apply(lambda x: round(x) if pd.notna(x) else None)
+            elif col_type == 'FLOAT':
+                df[col] = df[col].apply(lambda x: Decimal(str(x)) if pd.notna(x) else None)
+            elif col_type == 'BOOLEAN':
+                df[col] = df[col].astype(int)
+
+        # Convert NaN values to None for SQL compatibility
+        df = df.where(pd.notna(df), None)
+
+        # Format column names and create SQL statement
+        columns = ', '.join([f'`{col}`' for col in df.columns])
+        placeholders = ', '.join(['%s'] * len(df.columns))
+        insert_query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders});"
+
+        # Create a list of tuples from the DataFrame
+        records = [tuple(row) for row in df.to_records(index=False)]
+
+        with mysql_cursor(connection) as cursor:
+            # Execute the SQL query for insertion
             cursor.executemany(insert_query, records)
             connection.commit()
 

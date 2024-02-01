@@ -1,7 +1,6 @@
 # Import necessary libraries
 import boto3
 import mysql.connector
-import pyodbc
 from google.cloud import storage
 
 # Function to connect to AWS RDS
